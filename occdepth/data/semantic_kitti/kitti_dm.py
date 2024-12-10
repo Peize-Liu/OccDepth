@@ -46,6 +46,8 @@ class KittiDataModule(pl.LightningDataModule):
 
         # strong img aug
         self.use_strong_img_aug = use_strong_img_aug
+        # print("preprocess_root", self.preprocess_root)
+        print("batch_size", self.batch_size)    
 
     def setup(self, stage=None):
         self.train_ds = KittiDataset(
@@ -80,6 +82,7 @@ class KittiDataModule(pl.LightningDataModule):
             with_occluded=False,
             use_strong_img_aug=False,
         )
+       
 
         self.test_ds = KittiDataset(
             split="test",
@@ -95,6 +98,8 @@ class KittiDataModule(pl.LightningDataModule):
             with_occluded=False,
             use_strong_img_aug=False,
         )
+        
+        print("dataset length: train={}, val={}, test={}".format(len(self.train_ds), len(self.val_ds), len(self.test_ds)))
 
     def train_dataloader(self):
         from functools import partial
@@ -116,7 +121,7 @@ class KittiDataModule(pl.LightningDataModule):
 
     def val_dataloader(self):
         from functools import partial
-
+        print("val dataloader batchsize: {}; set to 1".format(self.batch_size))
         return DataLoader(
             self.val_ds,
             batch_size=self.batch_size,
