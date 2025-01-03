@@ -13,6 +13,24 @@ from occdepth.data.utils.helpers import (
 )
 from scipy.spatial.transform import Rotation as R
 
+def img_transform(crop, flip):
+    ida_rot = torch.eye(2)
+    ida_tran = torch.zeros(2)
+
+    ida_tran -= torch.Tensor(crop[:2])
+    if flip:
+        A = torch.Tensor([[-1, 0], [0, 1]])
+        b = torch.Tensor([crop[2] - crop[0], 0])
+        ida_rot = A.matmul(ida_rot)
+        ida_tran = A.matmul(ida_tran) + b
+
+    ida_mat = ida_rot.new_zeros(4, 4)
+    ida_mat[3, 3] = 1
+    ida_mat[2, 2] = 1
+    ida_mat[:2, :2] = ida_rot
+    ida_mat[:2, 3] = ida_tran
+
+    return ida_mat
 
 class TartanAirDataset(Dataset):
     def __init__(
@@ -24,13 +42,13 @@ class TartanAirDataset(Dataset):
     ):
         super().__init__()
         self.root = config.data_dir_root
-        self.label_root = os.path.join(config.data_preprocess_root, "labels")
+        self.label_root = os.path.join(config.data_preprocess_root)
         self.n_classes = config.n_classes
         self.scene = config.scene  # office
         self.scene_diffculty = config.scene_diffculty  # "Easy"
         splits = {
-            "train": ["P000", "P001", "P002", "P003", "P004", "P006"],
-            "val": ["P005"],
+            "train": ["P000", "P001", "P002", "P005", "P004", "P006"],
+            "val": ["P009"],
         }
         self.split = split
         self.sequences = splits[split]
@@ -307,7 +325,7 @@ class TartanAirDataset(Dataset):
 if __name__ == "__main__":
     import hydra
 
-    @hydra.main(config_name="../../config/occdepth.yaml")
+    @hydra.main(config_name="/occdepth/occdepth/config/tartanair/multicam_flospdepth_crp_stereodepth_cascadecls_2080ti.yaml")
     def test(config):
         ds = TartanAirDataset(
             split="train",

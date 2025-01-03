@@ -8,4 +8,5 @@ from occdepth.models.flosp_depth.flosp_depth_conf_nyu import (
 flosp_depth_conf_map = {
     "NYU": flosp_depth_conf_nyu,
     "kitti": flosp_depth_conf_kitti,
+    "tartanair":flosp_depth_conf_nyu
 }

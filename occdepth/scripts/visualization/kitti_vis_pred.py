@@ -171,7 +171,7 @@ def draw(
 @hydra.main(config_path=None)
 def main(config: DictConfig):
     # scan = config.file
-    scan = "/home/pliuan/6dof-occ/OccDepth/output/kitti/08/000000.pkl"
+    scan = "/home/dji/workspace/drone_occ/OccDepth/output/kitti/08/000000.pkl"
     with open(scan, "rb") as handle:
         b = pickle.load(handle)
 
