@@ -71,6 +71,9 @@ class KittiDataset(Dataset):
             "train": ["00", "01", "02", "03", "04", "05", "06", "07", "09", "10"],
             "val": ["08"],
             "test": ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
+            # "train": ["00"],
+            # "val": ["08"],
+            # "test": ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
         }
         self.split = split
         self.sequences = splits[split]
@@ -83,8 +86,8 @@ class KittiDataset(Dataset):
         self.fliplr = fliplr
 
         self.voxel_size = 0.2  # 0.2m
-        self.img_W = 1220  # 1216
-        self.img_H = 370  # 352
+        self.img_W = 640  # 1216
+        self.img_H = 480  # 352 
         self.pattern_id = pattern_id
         self.multi_view_mode = multi_view_mode
 
