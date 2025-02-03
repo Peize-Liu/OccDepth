@@ -30,8 +30,9 @@ def geo_scal_loss(pred, ssc_target):
     empty_probs = empty_probs[mask]
 
     intersection = (nonempty_target * nonempty_probs).sum()
-    precision = intersection / nonempty_probs.sum()
-    recall = intersection / nonempty_target.sum()
+    eps = 1e-8
+    precision = intersection / (nonempty_probs.sum() + eps)
+    recall = intersection / (nonempty_target.sum() + eps)
     spec = ((1 - nonempty_target) * (empty_probs)).sum() / (1 - nonempty_target).sum()
     return (
         F.binary_cross_entropy(precision, torch.ones_like(precision))
