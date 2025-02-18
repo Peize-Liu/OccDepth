@@ -206,10 +206,10 @@ def draw(
 @hydra.main(config_path=None)
 def main(config: DictConfig):
 
-    pkl_dir = "/data/github_code/OccDepth/output/kitti/08"
-    img_dir = "/data/dataset/KITTI_Odometry_Semantic/dataset/08/image_2"
+    pkl_dir = "/home/pliuan/6dof-occ/OccDepth/output/kitti/08"
+    img_dir = "/home/pliuan/6dof-occ/OccDepth/data/tartanair/dataset/sequences/08/image_2"
     dump_dir = (
-        "/data/occupancynet/OccDepth/baseline_v100/dump_dir/baseline_v2"
+        "/home/pliuan/6dof-occ/OccDepth/visualization_dump"
     )
     if "img_dir" in config:
         img_dir = config["img_dir"]
@@ -217,7 +217,10 @@ def main(config: DictConfig):
         pkl_dir = config["pkl_dir"]
     if "dump_dir" in config:
         dump_dir = config["dump_dir"]
+
+    # config.dataset = "kitti"
     os.makedirs(dump_dir, exist_ok=True)
+
 
     pkl_names = os.listdir(pkl_dir)
     pkl_names = sorted(pkl_names)
@@ -238,30 +241,30 @@ def main(config: DictConfig):
 
         y_pred = b["y_pred"]
 
-        if config.dataset == "kitti_360":
-            # Visualize KITTI-360
-            draw(
-                y_pred,
-                T_velo_2_cam,
-                vox_origin,
-                fov_mask_1,
-                voxel_size=0.2,
-                f=552.55426,
-                img_size=(1408, 376),
-                d=7,
-            )
-        else:
-            # Visualize Semantic KITTI
-            vox_img = draw(
-                y_pred,
-                T_velo_2_cam,
-                vox_origin,
-                fov_mask_1,
-                img_size=(1220, 370),
-                f=707.0912,
-                voxel_size=0.2,
-                d=7,
-            )
+        # if config.dataset == "kitti_360":
+        #     # Visualize KITTI-360
+        #     draw(
+        #         y_pred,
+        #         T_velo_2_cam,
+        #         vox_origin,
+        #         fov_mask_1,
+        #         voxel_size=0.2,
+        #         f=552.55426,
+        #         img_size=(1408, 376),
+        #         d=7,
+        #     )
+        # else:
+        # Visualize Semantic KITTI
+        vox_img = draw(
+            y_pred,
+            T_velo_2_cam,
+            vox_origin,
+            fov_mask_1,
+            img_size=(640, 480),
+            f=707.0912,
+            voxel_size=0.2,
+            d=7,
+        )
         img = cv2.imread(img_path)
         new_w = img.shape[1]
         new_h = int(new_w / vox_img.shape[1] * vox_img.shape[0])

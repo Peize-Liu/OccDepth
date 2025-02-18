@@ -42,7 +42,7 @@ def main(config: DictConfig):
             data_lidar_depth_root=config.data_lidar_depth_root,
         )
         data_module.setup()
-        data_loader = data_module.val_dataloader()
+        data_loader = data_module.test_dataloader()
 
     elif config.dataset == "NYU":
         full_scene_size = tuple(config.full_scene_size)

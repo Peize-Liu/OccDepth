@@ -347,13 +347,13 @@ class OccDepth(pl.LightningModule):
         out = {}
         """
         get feature map dict
-            '1_1':  16x370x1220
-            '1_2':  16x185x610
-            '1_4':  16x93x305
-            '1_8':  16x47x153
-            '1_16': 16x24x77
+            '1_1':  16x370x1220  //TartanAir 16 480 640
+            '1_2':  16x185x610   //          16 240 320
+            '1_4':  16x93x305    //          16 120 160
+            '1_8':  16x47x153                16 60  80
+            '1_16': 16x24x77                 16 30  40
         """
-        x_rgb, n_views = self.process_rgbs(img,batch,n_views)
+        x_rgb, n_views = self.process_rgbs(img,batch,n_views)  # 2D unet feateure ; 2
 
         if self.dataset == "NYU":
             vox_origin = batch["vox_origin"]
