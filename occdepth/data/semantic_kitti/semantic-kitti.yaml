@@ -1,6 +1,7 @@
 # This file is covered by the LICENSE file in the root of this project.
 nbr_classes: 20
-grid_dims: [256, 32, 256]  # (W, H, D)
+# grid_dims: [256, 32, 256]  # (W, H, D)
+grid_dims: [256, 256, 256]  # (W, H, D)
 labels:
   0 : "unlabeled"
   1 : "outlier"

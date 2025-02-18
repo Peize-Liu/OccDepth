@@ -5,6 +5,12 @@ from omegaconf import DictConfig
 import hydra
 from mayavi import mlab
 
+from mayavi.api import Engine
+
+engine = Engine()
+
+engine.start()
+
 
 def get_grid_coords(dims, resolution):
     """
@@ -55,7 +61,7 @@ def draw(
         ]
     )
     tri_points = np.hstack([tri_points, np.ones((5, 1))])
-    tri_points = (np.linalg.inv(T_velo_2_cam) @ tri_points.T).T
+    tri_points = (np.linalg.inv(T_velo_2_cam[0]) @ tri_points.T).T
     x = tri_points[:, 0] - vox_origin[0]
     y = tri_points[:, 1] - vox_origin[1]
     z = tri_points[:, 2] - vox_origin[2]
@@ -73,6 +79,9 @@ def draw(
 
     # Attach the predicted class to every voxel
     grid_coords = np.vstack([grid_coords.T, voxels.reshape(-1)]).T
+
+    if len(fov_mask.shape) == 3:
+        fov_mask = fov_mask[0, :, 0]
 
     # Get the voxels inside FOV
     fov_grid_coords = grid_coords[fov_mask, :]
@@ -161,7 +170,8 @@ def draw(
 
 @hydra.main(config_path=None)
 def main(config: DictConfig):
-    scan = config.file
+    # scan = config.file
+    scan = "/home/pliuan/6dof-occ/OccDepth/output/kitti/08/000000.pkl"
     with open(scan, "rb") as handle:
         b = pickle.load(handle)
 
@@ -171,31 +181,41 @@ def main(config: DictConfig):
 
     y_pred = b["y_pred"]
 
-    if config.dataset == "kitti_360":
-        # Visualize KITTI-360
-        draw(
-            y_pred,
-            T_velo_2_cam,
-            vox_origin,
-            fov_mask_1,
-            voxel_size=0.2,
-            f=552.55426,
-            img_size=(1408, 376),
-            d=7,
-        )
-    else:
-        # Visualize Semantic KITTI
-        draw(
-            y_pred,
-            T_velo_2_cam,
-            vox_origin,
-            fov_mask_1,
-            img_size=(1220, 370),
-            f=707.0912,
-            voxel_size=0.2,
-            d=7,
-        )
+    # if config.dataset == "kitti_360":
+    #     # Visualize KITTI-360
+    #     draw(
+    #         y_pred,
+    #         T_velo_2_cam,
+    #         vox_origin,
+    #         fov_mask_1,
+    #         voxel_size=0.2,
+    #         f=552.55426,
+    #         img_size=(1408, 376),
+    #         d=7,
+    #     )
+    # else:
+    #     # Visualize Semantic KITTI
+    #     draw(
+    #         y_pred,
+    #         T_velo_2_cam,
+    #         vox_origin,
+    #         fov_mask_1,
+    #         img_size=(1220, 370),
+    #         f=707.0912,
+    #         voxel_size=0.2,
+    #         d=7,
+    #     )
 
+    draw(
+        y_pred,
+        T_velo_2_cam,
+        vox_origin,
+        fov_mask_1,
+        img_size=(640, 480),
+        f=320,
+        voxel_size=0.2,
+        d=7,
+    )
 
 if __name__ == "__main__":
     main()
