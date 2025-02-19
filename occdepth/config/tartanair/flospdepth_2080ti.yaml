@@ -1,6 +1,6 @@
 ### dataset
 #dataset: "NYU" # "kitti", "tartanair"
-dataset: "kitti"
+dataset: "tartanair"
 
 n_relations: 4
 

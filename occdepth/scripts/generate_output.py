@@ -83,6 +83,7 @@ def main(config: DictConfig):
     # to draw the viewing frustum and remove scene outside the room for NYUv2
     output_path = os.path.join(config_path,"../../../../output", config.dataset)
     output_path = os.path.abspath(output_path)
+    print("output_path", output_path)
     with torch.no_grad():
         for batch in tqdm(data_loader):
             batch["img"] = batch["img"].cuda()
@@ -135,4 +136,5 @@ def main(config: DictConfig):
 
 
 if __name__ == "__main__":
+    os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
     main()

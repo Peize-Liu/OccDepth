@@ -11,15 +11,15 @@ from numba import njit, jit
 import multiprocessing
 from numba.typed import Dict
 
-scenes = ["office"]
-difficultys = ["Easy", "Hard"]
+scenes = ["abandonedfactory"]
+difficultys = ["Easy"]
 sequences = {
-    "Easy": ["P000", "P001", "P002", "P003", "P004", "P005", "P006"],
-    "Hard": ["P000", "P001", "P002", "P003", "P004", "P005", "P006", "P007"],
+    "Easy": ["P000" ,"P001" ,"P002" ,"P004",  "P005",  "P006", "P008", "P009", "P010" ,"P011"],
+    "Hard": ["P000"],
 }
-data_root_dir = "/data/dataset/TartanAir_full"
-preprocess_dir = "/data/dataset/TartanAir_full_preprocess"
-labels_dir = "/data/dataset/TartanAir_full_preprocess/labels"
+data_root_dir = "/occdepth/data/TartanAir"
+preprocess_dir = "/occdepth/data/TartanAir/preprocess"
+labels_dir = "/occdepth/data/TartanAir/preprocess_labels"
 
 scene = None
 scene_diffculty = None
@@ -392,10 +392,10 @@ def test():
     global scenes
     global difficultys
     global sequences
-    scenes = ["office"]
-    difficultys = ["Hard"]
+    scenes = ["abandonedfactory"]
+    difficultys = ["Easy"]
     sequences = {
-        "Easy": ["P000"],
+        "Easy": ["P000" ,"P001" ,"P002" ,"P004",  "P005",  "P006", "P008", "P009", "P010" ,"P011"],
         "Hard": ["P000"],
     }
     export_voxels()

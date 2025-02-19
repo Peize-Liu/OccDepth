@@ -142,6 +142,8 @@ class OccDepth(pl.LightningModule):
             self.total_batch = (3834 // batch_size) * 30
         elif self.dataset == "NYU":
             self.total_batch = (795 // batch_size) * 30
+        elif self.dataset == "tartanair":
+            self.total_batch = (795 // batch_size) * 30
         else:
             raise NotImplementedError(self.dataset)
         self.cur_batch = 0

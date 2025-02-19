@@ -65,6 +65,7 @@ class KittiDataset(Dataset):
     ):
         super().__init__()
         self.root = root
+        print(f"INFO: KittiDataset root: {self.root}, prepocess_root {preprocess_root}")
         self.label_root = os.path.join(preprocess_root, "labels")
         self.n_classes = 20
         splits = {
@@ -128,6 +129,9 @@ class KittiDataset(Dataset):
             calib = self.read_calib(
                 os.path.join(self.root, "dataset", "sequences", sequence, "calib.txt")
             )
+            # debug
+            read_path = os.path.join(self.root, "dataset", "sequences", sequence, "calib.txt")
+            print(f"INFO: read calib from {read_path}")
             P = [calib["P2"]]
             P.append(calib["P3"])
             P = np.array(P)
@@ -219,7 +223,7 @@ class KittiDataset(Dataset):
                 "dataset",
                 "sequences",
                 sequence,
-                "image_2",
+                "image_0",
                 frame_id + ".png",
             )
         ]
@@ -230,7 +234,7 @@ class KittiDataset(Dataset):
                 "dataset",
                 "sequences",
                 sequence,
-                "image_3",
+                "image_1",
                 frame_id + ".png",
             )
         )

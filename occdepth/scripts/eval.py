@@ -51,6 +51,10 @@ def main(config: DictConfig):
             config=config,
         )
 
+    #Occ depth print config
+    print("Config:")
+    print(config)
+
     trainer = Trainer(
         sync_batchnorm=True, deterministic=True, gpus=config.n_gpus, accelerator="ddp"
     )
@@ -77,6 +81,9 @@ def main(config: DictConfig):
     )
     data_module.setup()
     val_dataloader = data_module.val_dataloader()
+    # debug dataloader len is 0
+    print(len(val_dataloader))
+    
     trainer.test(model, test_dataloaders=val_dataloader)
     print(
         "##### Max CUDA memory during all evaluation process: {} G".format(
@@ -86,4 +93,5 @@ def main(config: DictConfig):
 
 
 if __name__ == "__main__":
+    os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
     main()

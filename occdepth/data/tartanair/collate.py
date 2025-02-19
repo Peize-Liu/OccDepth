@@ -14,12 +14,15 @@ def collate_fn(batch):
     T_velo_2_cams = []
     frustums_masks = []
     frustums_class_dists = []
+    ida_mats = []
 
     data["projected_pix_1"] = []
     data["fov_mask_1"] = []
 
     for idx, input_dict in enumerate(batch):
         cam_ks.append(torch.from_numpy(input_dict["cam_k"]).double())
+        #TartanAir support Peize
+        ida_mats.append(torch.from_numpy(input_dict["ida_mat"]).float())
         T_velo_2_cams.append(torch.from_numpy(input_dict["T_velo_2_cam"]).float())
 
         if "vox_origin" in input_dict:
