@@ -262,7 +262,7 @@ def main(config: DictConfig):
             fov_mask_1,
             img_size=(640, 480),
             f=707.0912,
-            voxel_size=0.2,
+            voxel_size=0.25,
             d=7,
         )
         img = cv2.imread(img_path)

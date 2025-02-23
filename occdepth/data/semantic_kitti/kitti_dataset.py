@@ -44,6 +44,7 @@ def load_depth(depth_path, scale=256):
     return depth
 
 
+# change for tartanair kitti occ
 class KittiDataset(Dataset):
     def __init__(
         self,
@@ -68,9 +69,9 @@ class KittiDataset(Dataset):
         self.label_root = os.path.join(preprocess_root, "labels")
         self.n_classes = 20
         splits = {
-            "train": ["00", "01", "02", "03", "04", "05", "06", "07", "09", "10"],
-            "val": ["08"],
-            "test": [ "21"],
+            "train": ["00", "01", "02", "03", "04", "05", "06", "07","08", "09"],
+            "val": ["10","11","12","13","14"],
+            "test": [ "15","16","17","18","19"],
             # "train": ["00"],
             # "val": ["08"],
             # "test": ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
@@ -81,11 +82,13 @@ class KittiDataset(Dataset):
         self.frustum_size = frustum_size
         self.project_scale = project_scale
         self.output_scale = math.ceil(self.project_scale / 2)
-        self.scene_size = (51.2, 51.2, 6.4)
-        self.vox_origin = np.array([0, -25.6, -2])
+        # self.scene_size = (51.2, 51.2, 6.4) change for tartanair kitti occ
+        self.scene_size = (64.0, 64.0, 16.0)
+        # self.vox_origin = np.array([0, -25.6, -2]) change for tartanair kitti occ
+        self.vox_origin = np.array([0, -32.0, -12])
         self.fliplr = fliplr
 
-        self.voxel_size = 0.2  # 0.2m
+        self.voxel_size = 0.25  # 0.2m
         self.img_W = 640  # 1216
         self.img_H = 480  # 352 
         self.pattern_id = pattern_id
@@ -151,7 +154,7 @@ class KittiDataset(Dataset):
             T_velo_2_cam = np.array(T_velo_2_cam)
 
             glob_path = os.path.join(
-                self.root, "dataset", "sequences", sequence, "voxels", "*.bin"
+                self.root, "dataset", "sequences", sequence, "voxels_small", "*.bin"
             )
             for voxel_path in glob.glob(glob_path):
                 self.scans.append(
@@ -309,11 +312,12 @@ class KittiDataset(Dataset):
                 "dataset",
                 "sequences",
                 sequence,
-                "voxels",
+                "voxels_small",
                 frame_id + ".occluded",
             )
             occluded = _read_occluded_SemKITTI(occluded_path)
-            occluded = occluded.reshape(256, 256, 32)
+            # occluded = occluded.reshape(256, 256, 32) change for tartanair kitti occ
+            occluded = occluded.reshape(256, 256, 256)
 
         # Compute the masks, each indicate the voxels of a local frustum
         if self.split != "test":
@@ -482,9 +486,9 @@ if __name__ == "__main__":
             projected_pix_2(array, n2x2)
             pix_z_2(array, n2x2)
             fov_mask_2(array, n2x2)
-            target(array, x*y*z): 256x256x32 voxel
+            target(array, x*y*z): 256x256x32 voxel  64x256x256x256 
             CP_mega_matrix(array, 4x4096x512)
-            frustums_masks(64x256x256x32)
+            frustums_masks(64x256x256x32) 64x256x256x256 
             frustums_class_dists(64x20)
             img(array, cxhxw): 3x370x1220
         """

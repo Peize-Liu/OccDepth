@@ -43,8 +43,8 @@ config_path= os.getenv('DATA_CONFIG')
 @hydra.main(config_name=config_path)
 def main(config: DictConfig):
     # scene_size = (256, 256, 32)
-    scene_size = (256, 256, 256)
-    sequences = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]
+    scene_size = [256, 256, 256]
+    sequences = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14"]
     remap_lut = SemanticKittiIO.get_remap_lut(
         os.path.join(
             get_original_cwd(),
@@ -57,7 +57,7 @@ def main(config: DictConfig):
 
     for sequence in sequences:
         sequence_path = os.path.join(
-            config.data_root, "dataset", "sequences", sequence
+            config.data_root, sequence
         )
         label_paths = sorted(
             glob.glob(os.path.join(sequence_path, "voxels", "*.label"))
@@ -69,7 +69,6 @@ def main(config: DictConfig):
         os.makedirs(out_dir, exist_ok=True)
 
         downscaling = {"1_1": 1, "1_8": 8}
-
         for i in tqdm(range(len(label_paths))):
 
             frame_id, extension = os.path.splitext(os.path.basename(label_paths[i]))
@@ -82,7 +81,7 @@ def main(config: DictConfig):
             LABEL[
                 np.isclose(INVALID, 1)
             ] = 255  # Setting to unknown all voxels marked on invalid mask...
-            LABEL = LABEL.reshape([256, 256, 32])
+            LABEL = LABEL.reshape(scene_size)
 
             for scale in downscaling:
                 filename = frame_id + "_" + scale + ".npy"

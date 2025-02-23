@@ -104,6 +104,7 @@ conda install -c bioconda tbb=2020.2
     ``` bash
     cd OccDepth/
     python occdepth/data/semantic_kitti/preprocess.py data_root="/path/to/semantic_kitti" data_preprocess_root="/path/to/kitti/preprocess/folder"
+    python occdepth/data/semantic_kitti/mutlithread_preprocess.py data_root="/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc" data_preprocess_root="/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc/tartanair_preprocess"
     ```
 
 

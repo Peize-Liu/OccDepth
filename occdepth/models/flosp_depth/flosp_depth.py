@@ -197,7 +197,7 @@ class SELayer(nn.Module):
         x_se = self.conv_expand(x_se)
         return x * self.gate(x_se)
 
-
+# Modify point
 class DepthNet(nn.Module):
     def __init__(
         self,

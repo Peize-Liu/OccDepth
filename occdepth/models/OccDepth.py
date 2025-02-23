@@ -25,7 +25,9 @@ from occdepth.loss.depth_loss import DepthClsLoss
 from sklearn.decomposition import PCA
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+# point gpu
+# gpu_ids = [0, 1, 3, 4]  # 选择 GPU 0,1,3,4
+# device = torch.device(f"cuda:{gpu_ids[0]}" if torch.cuda.is_available() else "cpu")
 
 class OccDepth(pl.LightningModule):
     def __init__(
@@ -282,7 +284,7 @@ class OccDepth(pl.LightningModule):
 
                     # Sum all the 3D features
                     if x3d is None:
-                        x3d = self.projects[str(scale_2d)](
+                        x3d = self.projects[str(scale_2d)]( #
                             x_rgb_reshape[i],
                             projected_pix // scale_2d,
                             fov_mask,
@@ -337,6 +339,7 @@ class OccDepth(pl.LightningModule):
                     x3ds_depth = x3ds_depth.permute(0, 1, 2, 4, 3).contiguous()
 
                 x3ds = x3ds * x3ds_depth * 100
+
         else:
             raise NotImplementedError(f"{self.trans_2d_to_3d} is not supported yet.")
         return x3ds, depth_pred

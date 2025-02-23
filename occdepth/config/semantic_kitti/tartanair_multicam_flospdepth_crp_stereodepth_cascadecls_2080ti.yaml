@@ -5,17 +5,17 @@ dataset: "kitti"
 n_relations: 4
 
 enable_log: true
-data_root: '/home/pliuan/6dof-occ/OccDepth/data/tartanair'
-data_preprocess_root: '/home/pliuan/6dof-occ/OccDepth/data/tartanair/preprocess'
-data_stereo_depth_root: '/home/pliuan/6dof-occ/OccDepth/data/tartanair'
-data_lidar_depth_root: '/home/pliuan/6dof-occ/OccDepth/data/tartanair'
+data_root: '/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc'
+data_preprocess_root: '/home/pliuan/6dof-occ/OccDepth/data/small_preprocess'
+data_stereo_depth_root: '/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc'
+data_lidar_depth_root: '/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc'
 
 #data_root: '/data/dataset/NYU_dataset/depthbin/'
 #data_preprocess_root: '/data/dataset/NYU_dataset_preprocess'
 logdir: 'logdir'
 
 ### training cfg
-max_epochs: 10 # 训练 epoch 数量
+max_epochs: 15 # 训练 epoch 数量
 gradient_clip_val: 35 # gradient clip val (0 FOR w/o gradient clip)
 use_stereo_depth_gt: true # stereo depth 监督，只有 kitti 支持
 use_lidar_depth_gt: false # lidar depth 监督，只有 kitti 支持
@@ -58,7 +58,7 @@ pattern_id: 0 # flosp 取点逻辑
 full_scene_size: # 3d scene 尺寸定义
   - 256
   - 256
-  - 32
+  - 64 #32 tartain air change
 project_scale: 2 # 投影到 3d voxel 的下采样倍数
 feature: 32 # 3d 网络 channel 维度
 feature_2d_oc: 32 # # 2d 网络输出 channel 维度

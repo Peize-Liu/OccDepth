@@ -48,7 +48,7 @@ project_1_2: true
 project_1_4: true
 project_1_8: true
 
-ckpt: ''
+ckpt: '/home/pliuan/6dof-occ/OccDepth/logdir/test/kitti_exp_kitti_1_FrusSize_8_nRelations4_WD0.0001_lr0.0002_CEssc_geoScalLoss_semScalLoss_fpLoss_CERel_3DCRP_MultiView_cascadecls_withdepth_Proj_2_4_8/checkpoints/last.ckpt'
 
 ### MultiView
 multi_view_mode: true # 多摄模式，只有 kitti 支持多摄

@@ -1,10 +1,9 @@
 import os
 
 TARTANAIROCC_BASE = "/uav-nas/SharedDatasets/TartanAirKittiOcc"
-TARGET_BASE = "/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc"
+TARGET_BASE = "/home/pliuan/6dof-occ/OccDepth/data/TartanAirOcc/dataset/sequences"
 
-
-subdir = ["amusement", "gascola", "neighborhood", "oldtown", "seasonsforest"]
+subdir = ["amusement", "gascola", "neighborhood", "oldtown", "seasonsforest"] # do not change the order; preprocess script depends on this order
 max_sequence = 5
 
 def main():
